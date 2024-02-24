@@ -162,7 +162,7 @@ func main() {
 	// input1 := `{[[[[[[[[[[[[[[["siddhi", {"name" : "siddhant"},            2, [["siddhant"]]]]]]]]]]]]]]]]]}` // invalid as key-value pair is required
 	// input2 := `[[[[[[[[[[[[[[[[[[["siddhi"]]]]]]]]]]]]]]]]]]]` // valid json as json can be a list
 	// input3 := `{"name" : "siddhi", "number" : 1234567890, "marks" : [98, 95, 25],}` // invalid as comma before closing ("}") brace
-
+	// input4 := `[[[[[["siddhi",     [[8,       9]]]]]]]]` // valid json
 	lexer := NewLexer(input)
 
 	for {
