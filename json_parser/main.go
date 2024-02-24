@@ -157,7 +157,7 @@ func isValidIdentifierPart(ch byte) bool {
 }
 
 func main() {
-	input := `{"name": "John", "age": 30, "isStudent": true, "grades": [90, 85, 88.5]}`
+	input := `[[[[[[[[[[[[[[["siddhi"]]]]]]]]]]]]]]]`
 	lexer := NewLexer(input)
 
 	for {
@@ -173,7 +173,9 @@ func main() {
 	var jsonData interface{}
 	err := json.Unmarshal([]byte(input), &jsonData)
 	if err != nil {
+		fmt.Println(false)
 		log.Fatal(err)
 	}
+	fmt.Println(true)
 	fmt.Println("Parsed JSON:", jsonData)
 }
