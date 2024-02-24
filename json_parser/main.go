@@ -157,7 +157,11 @@ func isValidIdentifierPart(ch byte) bool {
 }
 
 func main() {
-	input := `[[[[[[[[[[[[[[["siddhi", {"name" : "siddhant"}, [["siddhant"]]]]]]]]]]]]]]]]]`
+
+	input := `{"list": [[[[[[[[[[[[[[["siddhi", {"name" : "siddhant"},            2, [["siddhant"]]]]]]]]]]]]]]]]]}` // valid json
+	// input1 := `{[[[[[[[[[[[[[[["siddhi", {"name" : "siddhant"},            2, [["siddhant"]]]]]]]]]]]]]]]]]}` // invalid as key-value pair is required
+	// input2 := `[[[[[[[[[[[[[[[[[[["siddhi"]]]]]]]]]]]]]]]]]]]` // valid json as json can be a list
+
 	lexer := NewLexer(input)
 
 	for {
