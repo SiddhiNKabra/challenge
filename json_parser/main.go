@@ -157,7 +157,7 @@ func isValidIdentifierPart(ch byte) bool {
 }
 
 func main() {
-	input := `[[[[[[[[[[[[[[["siddhi"]]]]]]]]]]]]]]]`
+	input := `[[[[[[[[[[[[[[["siddhi", {"name" : "siddhant"}, [["siddhant"]]]]]]]]]]]]]]]]]`
 	lexer := NewLexer(input)
 
 	for {
