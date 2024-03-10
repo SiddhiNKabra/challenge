@@ -69,5 +69,30 @@ func Compress(text string) (string, map[byte]string) {
 }
 
 func main() {
+	if len(os.Args) != 3 {
+		fmt.Println("Usage: ./compressor [compress] [input file]")
+		return
+	}
+	inputfile := os.Args[2]
+	file, err := os.Open(inputfile)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	var text string
+	for scanner.Scan() {
+		text += scanner.Text()
+		text += "\n"
+	}
+	compressedtext, codes := Compress(text)
+	fmt.Println("Compressed Text: ")
+	fmt.Println(compressedtext)
+	fmt.Println("Huffman Codes: ")
+	for char, code := range codes{
+		fmt.Printf("%c : %s\n", char, code)
+	}
 
 }
