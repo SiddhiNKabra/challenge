@@ -70,7 +70,7 @@ func Compress(text string) (string, map[byte]string) {
 
 func main() {
 	if len(os.Args) != 3 {
-		fmt.Println("Usage: ./compressor [compress] [input file]")
+		fmt.Println("Usage: ./main [compress] [input file]")
 		return
 	}
 	inputfile := os.Args[2]
