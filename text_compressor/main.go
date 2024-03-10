@@ -50,7 +50,7 @@ func traversehuffman(root *Node, code string, codes map[byte]string) {
 	traversehuffman(root.right, code+"1", codes)
 }
 
-func Compress(text string) (string, map[byte]string) {
+func Compress(text string) (string, map[byte]string, int) {
 	charfreq := make(map[byte]int)
 	for i := 0; i < len(text); i++ {
 		charfreq[text[i]]++
@@ -64,7 +64,7 @@ func Compress(text string) (string, map[byte]string) {
 	for i := 0; i < len(text); i++ {
 		compressed += codes[text[i]]
 	}
-	return compressed, codes
+	return compressed, codes, len(compressed)
 
 }
 
@@ -80,6 +80,14 @@ func main() {
 		return
 	}
 	defer file.Close()
+	fileInfo, err := file.Stat()
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	byteCount := fileInfo.Size()
+	fmt.Println("Size of file before compression:", byteCount)
+	
 
 	scanner := bufio.NewScanner(file)
 	var text string
@@ -87,12 +95,13 @@ func main() {
 		text += scanner.Text()
 		text += "\n"
 	}
-	compressedtext, codes := Compress(text)
+	compressedtext, codes, compressedlength := Compress(text)
 	fmt.Println("Compressed Text: ")
 	fmt.Println(compressedtext)
 	fmt.Println("Huffman Codes: ")
-	for char, code := range codes{
+	for char, code := range codes {
 		fmt.Printf("%c : %s\n", char, code)
 	}
+	fmt.Println("Compressed size of file in bytes: ", compressedlength/8)
 
 }
