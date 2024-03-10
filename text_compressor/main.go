@@ -1,8 +1,9 @@
 package main
 
 import (
-	"container/heap"
+	"bufio"
 	"fmt"
+	"os"
 )
 
 type Node struct {
@@ -12,26 +13,61 @@ type Node struct {
 	right *Node
 }
 
-type Huffmanheap []*Node
-
-func (h Huffmanheap) Len() int           { return len(h) }
-func (h Huffmanheap) Less(i, j int) bool { return h[i].freq < h[j].freq }
-func (h Huffmanheap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
-
-func (h *Huffmanheap) Push(x interface{}) {
-	*h = append(*h, x.(*Node))
+func mergenodes(Left, Right *Node) *Node {
+	return &Node{
+		char:  0,
+		freq:  Left.freq + Right.freq,
+		left:  Left,
+		right: Right,
+	}
 }
 
-func (h *Huffmanheap) Pop() interface{} {
-	old := *h
-	n := len(old)
-	node := old[n-1]
-	*h = old[0:n-1]
-	return node
+func BuildHuffmanTree(charfreq map[byte]int) *Node {
+	var nodes []*Node
+	for Char, Freq := range charfreq {
+		nodes = append(nodes, &Node{
+			char: Char,
+			freq: Freq,
+		})
+	}
+
+	for len(nodes) > 1 {
+		nodes = append(nodes, mergenodes(nodes[0], nodes[1]))
+		nodes = nodes[1:]
+		nodes = nodes[1:]
+	}
+	return nodes[0]
 }
 
+func traversehuffman(root *Node, code string, codes map[byte]string) {
+	if root == nil {
+		return
+	}
+	if root.char != 0 {
+		codes[root.char] = code
+	}
+	traversehuffman(root.left, code+"0", codes)
+	traversehuffman(root.right, code+"1", codes)
+}
 
+func Compress(text string) (string, map[byte]string) {
+	charfreq := make(map[byte]int)
+	for i := 0; i < len(text); i++ {
+		charfreq[text[i]]++
+	}
+	root := BuildHuffmanTree(charfreq)
+
+	codes := make(map[byte]string)
+
+	traversehuffman(root, "", codes)
+	compressed := ""
+	for i := 0; i < len(text); i++ {
+		compressed += codes[text[i]]
+	}
+	return compressed, codes
+
+}
 
 func main() {
-	fmt.Println("Hello")
+
 }
